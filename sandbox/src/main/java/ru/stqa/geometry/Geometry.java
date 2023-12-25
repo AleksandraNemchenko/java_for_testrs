@@ -1,9 +1,6 @@
 package ru.stqa.geometry;
 
-import ru.stqa.geometry.figures.Rectangle;
-import ru.stqa.geometry.figures.Square;
-import ru.stqa.geometry.figures.Triangle;
-import ru.stqa.geometry.figures.Circle;
+import ru.stqa.geometry.figures.*;
 
 public class Geometry {
     public static void main(String[] args) {
@@ -23,8 +20,11 @@ public class Geometry {
         System.out.println(t2.perimeter());
         System.out.println(t2.square());
 
-        Circle C = new Circle(5.0);
-        System.out.println(C.areaCircle());
+        Circle c = new Circle(5.0);
+        System.out.println(c.areaCircle());
+
+        RightTriangle d = new RightTriangle (4.0, 3.0);
+        System.out.println(d.AreaRightTriangle());
 
     }
 }
