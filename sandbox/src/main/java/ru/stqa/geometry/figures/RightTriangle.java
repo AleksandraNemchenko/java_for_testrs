@@ -6,6 +6,8 @@ public class RightTriangle {
     private double b;
 
     public RightTriangle (double a, double b){
+        if (a < 0 || b < 0)
+            throw new IllegalArgumentException();
         this.a = a;
         this.b = b;
     }

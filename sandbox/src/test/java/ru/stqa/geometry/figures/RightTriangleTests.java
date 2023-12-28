@@ -9,4 +9,18 @@ public class RightTriangleTests {
     void areaRightTriangleTests (){
         Assertions.assertEquals(6.0, new  RightTriangle (4.0, 3.0).AreaRightTriangle());
     }
+
+    @Test
+    void cannotCreateRightTriangleWithNegativeSideTest (){
+
+          try {
+              new RightTriangle(-3, 2);
+              Assertions.fail();
+          } catch (IllegalArgumentException exception){
+
+          };
+
+
+
+    }
 }
