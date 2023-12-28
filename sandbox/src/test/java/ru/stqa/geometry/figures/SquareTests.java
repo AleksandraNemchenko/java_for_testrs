@@ -9,10 +9,12 @@ public class SquareTests {
     void canCalculateArea ()
     {
 
-        Square s = new Square(5.0);
+        Square s = new Square(4.0);
         double result = s.area();
         Assertions.assertEquals(25.0, new Square (5.0).area());
-
+//        if (result != 25.0){
+//            throw new AssertionError(String.format("Expected %f, actual %f", 25.0, result));
+//        }
 
     }
 
@@ -20,5 +22,18 @@ public class SquareTests {
     void canCalculatePerimetr ()
     {
         Assertions.assertEquals(20.0, new Square(5.0).perimeter());
+    }
+
+    @Test
+    void cannotCreateSquareWithNegativeSide (){
+
+        try {
+            new  Square (-5.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            //ok
+        }
+
+
     }
 }
