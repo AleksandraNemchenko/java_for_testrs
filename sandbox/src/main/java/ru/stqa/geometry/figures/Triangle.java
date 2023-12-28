@@ -6,7 +6,16 @@ public class Triangle {
     private double b;
     private double c;
 
+
     public Triangle (double a, double b, double c){
+
+        if ( a < 0 || b < 0 || c < 0){
+            throw new IllegalArgumentException("Triangle side shoud be non-negative");
+        }
+        if ( a > (b + c) || b > (a + c) || c > (a + b)){
+            throw new IllegalArgumentException("The triangle inequality is violated");
+        }
+
         this.a = a;
         this.b = b;
         this.c = c;
