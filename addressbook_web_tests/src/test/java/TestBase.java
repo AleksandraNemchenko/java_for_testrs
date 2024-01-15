@@ -70,18 +70,18 @@ public class TestBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    protected void createContact(ContactData contactData) {
+    protected void createContact(ContactData contact) {
         driver.findElement(By.linkText("add new")).click();
         driver.findElement(By.name("firstname")).click();
-        driver.findElement(By.name("firstname")).sendKeys(contactData.firstName());
+        driver.findElement(By.name("firstname")).sendKeys(contact.firstName());
         driver.findElement(By.name("lastname")).click();
-        driver.findElement(By.name("lastname")).sendKeys(contactData.lastName());
+        driver.findElement(By.name("lastname")).sendKeys(contact.lastName());
         driver.findElement(By.name("address")).click();
-        driver.findElement(By.name("address")).sendKeys(contactData.address());
+        driver.findElement(By.name("address")).sendKeys(contact.address());
         driver.findElement(By.name("mobile")).click();
-        driver.findElement(By.name("mobile")).sendKeys(contactData.mobile());
+        driver.findElement(By.name("mobile")).sendKeys(contact.mobile());
         driver.findElement(By.name("email")).click();
-        driver.findElement(By.name("email")).sendKeys(contactData.email());
+        driver.findElement(By.name("email")).sendKeys(contact.email());
         driver.findElement(By.xpath("(//input[@name=\'submit\'])[2]")).click();
         driver.findElement(By.linkText("home page")).click();
     }

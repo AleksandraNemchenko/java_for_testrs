@@ -7,7 +7,7 @@ public class ContactRemovalTests extends TestBase{
     public void canRemoveGroup() {
         openContactPage();
         if (!isContactPresent()){
-            createContact(new ContactData("", "", "", "", ""));
+            createContact(new ContactData());
         }
         removeContact();
     }
