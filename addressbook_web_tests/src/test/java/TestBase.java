@@ -1,3 +1,4 @@
+import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
@@ -69,18 +70,18 @@ public class TestBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    protected void createContact() {
+    protected void createContact(ContactData contactData) {
         driver.findElement(By.linkText("add new")).click();
         driver.findElement(By.name("firstname")).click();
-        driver.findElement(By.name("firstname")).sendKeys("First name");
+        driver.findElement(By.name("firstname")).sendKeys(contactData.firstName());
         driver.findElement(By.name("lastname")).click();
-        driver.findElement(By.name("lastname")).sendKeys("Last name");
+        driver.findElement(By.name("lastname")).sendKeys(contactData.lastName());
         driver.findElement(By.name("address")).click();
-        driver.findElement(By.name("address")).sendKeys("Address");
+        driver.findElement(By.name("address")).sendKeys(contactData.address());
         driver.findElement(By.name("mobile")).click();
-        driver.findElement(By.name("mobile")).sendKeys("Mobile");
+        driver.findElement(By.name("mobile")).sendKeys(contactData.mobile());
         driver.findElement(By.name("email")).click();
-        driver.findElement(By.name("email")).sendKeys("E-mail");
+        driver.findElement(By.name("email")).sendKeys(contactData.email());
         driver.findElement(By.xpath("(//input[@name=\'submit\'])[2]")).click();
         driver.findElement(By.linkText("home page")).click();
     }
