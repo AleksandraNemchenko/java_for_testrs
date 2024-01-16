@@ -1,14 +1,15 @@
+package tests;
+
 import model.ContactData;
 import org.junit.jupiter.api.Test;
 
-public class ContactRemovalTests extends TestBase{
+public class ContactRemovalTests extends TestBase {
 
     @Test
     public void canRemoveGroup() {
-        app.openContactPage();
-        if (!app.isContactPresent()){
-            app.createContact(new ContactData());
+        if (!TestBase.app.contact().isContactPresent()){
+            TestBase.app.contact().createContact(new ContactData());
         }
-        app.removeContact();
+        TestBase.app.contact().removeContact();
     }
 }
