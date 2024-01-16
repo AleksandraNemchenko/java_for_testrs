@@ -5,10 +5,10 @@ public class ContactRemovalTests extends TestBase{
 
     @Test
     public void canRemoveGroup() {
-        openContactPage();
-        if (!isContactPresent()){
-            createContact(new ContactData());
+        app.openContactPage();
+        if (!app.isContactPresent()){
+            app.createContact(new ContactData());
         }
-        removeContact();
+        app.removeContact();
     }
 }
