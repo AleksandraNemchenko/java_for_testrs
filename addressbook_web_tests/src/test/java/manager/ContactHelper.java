@@ -3,16 +3,15 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
-public class ContactHelper {
-    private final ApplicationManager manager;
+public class ContactHelper extends HelperBase{
 
     public ContactHelper(ApplicationManager manager) {
-        this.manager = manager;
+        super(manager);
     }
 
     public void openContactPage() {
         if (!manager.isElementPresent(By.xpath("//input[@value=\'Delete\']"))) {
-            manager.driver.findElement(By.linkText("home")).click();
+            click(By.linkText("home"));
         }
     }
 
@@ -23,24 +22,57 @@ public class ContactHelper {
 
     public void createContact(ContactData contact) {
         openContactPage();
-        manager.driver.findElement(By.linkText("add new")).click();
-        manager.driver.findElement(By.name("firstname")).click();
-        manager.driver.findElement(By.name("firstname")).sendKeys(contact.firstName());
-        manager.driver.findElement(By.name("lastname")).click();
-        manager.driver.findElement(By.name("lastname")).sendKeys(contact.lastName());
-        manager.driver.findElement(By.name("address")).click();
-        manager.driver.findElement(By.name("address")).sendKeys(contact.address());
-        manager.driver.findElement(By.name("mobile")).click();
-        manager.driver.findElement(By.name("mobile")).sendKeys(contact.mobile());
-        manager.driver.findElement(By.name("email")).click();
-        manager.driver.findElement(By.name("email")).sendKeys(contact.email());
-        manager.driver.findElement(By.xpath("(//input[@name=\'submit\'])[2]")).click();
-        manager.driver.findElement(By.linkText("home page")).click();
+        initContactCreation();
+        fillContactForm (contact);
+        submitContactCreation();
+        returnToHomePage();
     }
-
     public void removeContact() {
         openContactPage();
-        manager.driver.findElement(By.name("selected[]")).click();
-        manager.driver.findElement(By.xpath("//input[@value=\'Delete\']")).click();
+        selectContact();
+        removeSelectedContact();
     }
+    public void modifyContact(ContactData modifiedContact) {
+        openContactPage();
+        initContactModification();
+        fillContactForm(modifiedContact);
+        submitGroupModification();
+        returnToHomePage();
+    }
+
+    private void submitContactCreation() {
+        click(By.xpath("(//input[@name=\'submit\'])[2]"));
+    }
+
+    private void initContactCreation() {
+        click(By.linkText("add new"));
+    }
+
+    private void removeSelectedContact() {
+        click(By.xpath("//input[@value=\'Delete\']"));
+    }
+
+    private void selectContact() {
+        click(By.name("selected[]"));
+    }
+
+    private void returnToHomePage() {
+        click(By.linkText("home page"));
+    }
+
+    private void submitGroupModification() {
+        click(By.name("update"));
+    }
+
+    private void fillContactForm(ContactData contact) {
+        type(By.name("firstname"), contact.firstName());
+        type(By.name("lastname"), contact.lastName());
+        type(By.name("address"), contact.address());
+        type(By.name("mobile"), contact.mobile());
+        type(By.name("email"), contact.email());
+    }
+    private void initContactModification() {
+        click(By.xpath("//img[@alt=\'Edit\']"));
+    }
+
 }
