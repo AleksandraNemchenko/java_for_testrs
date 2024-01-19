@@ -7,9 +7,9 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     public void canRemoveGroup() {
-        if (!TestBase.app.contact().isContactPresent()){
-            TestBase.app.contact().createContact(new ContactData());
+        if (!app.contact().isContactPresent()){
+            app.contact().createContact(new ContactData());
         }
-        TestBase.app.contact().removeContact();
+        app.contact().removeContact();
     }
 }
