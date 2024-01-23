@@ -5,6 +5,11 @@ import org.openqa.selenium.By;
 
 public class ContactHelper extends HelperBase{
 
+    public int getCount(){
+        openContactPage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
     public ContactHelper(ApplicationManager manager) {
         super(manager);
     }
@@ -14,12 +19,6 @@ public class ContactHelper extends HelperBase{
             click(By.linkText("home"));
         }
     }
-
-    public boolean isContactPresent() {
-        openContactPage();
-        return manager.isElementPresent(By.name("selected[]"));
-    }
-
     public void createContact(ContactData contact) {
         openContactPage();
         initContactCreation();

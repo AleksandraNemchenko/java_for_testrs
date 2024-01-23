@@ -1,12 +1,16 @@
 package tests;
 
 import model.ContactData;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ContactCreationTests extends TestBase {
     @Test
     public void canCreateContact() {
+        int groupCount =  app.contact().getCount();
         app.contact().createContact(new ContactData("First name", "Last name", "Address", "Mobile", "E-mail"));
+        int newGroupCount =  app.contact().getCount();
+        Assertions.assertEquals(groupCount + 1, newGroupCount);
     }
 
     @Test
