@@ -24,7 +24,7 @@ public class GroupHelper extends HelperBase{
     public void removeGroup() {
         openGroupPage();
         selectGroup();
-        removeSelectedGroup();
+        removeSelectedGroups();
         returnToGroupsPage();
     }
     public void modifyGroup(GroupData modifiedGroup) {
@@ -43,7 +43,7 @@ public class GroupHelper extends HelperBase{
         click(By.name("new"));
     }
 
-    private void removeSelectedGroup() {
+    private void removeSelectedGroups() {
         click(By.name("delete"));
     }
 
@@ -70,5 +70,18 @@ public class GroupHelper extends HelperBase{
     public int getCount() {
         openGroupPage();
         return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public void removeAllGroups() {
+        openGroupPage();
+        selectAllGroups();
+        removeSelectedGroups();
+    }
+
+    private void selectAllGroups() {
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkboxe : checkboxes){
+            checkboxe.click();
+        }
     }
 }
