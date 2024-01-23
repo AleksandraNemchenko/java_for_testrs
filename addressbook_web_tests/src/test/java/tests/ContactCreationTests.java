@@ -42,4 +42,17 @@ public class ContactCreationTests extends TestBase {
     public void canCreateContactWithEmailOnly() {
         app.contact().createContact(new ContactData().withEmail("E-mail"));
     }
+
+    @Test
+    public void canCreateMultipleContacts() {
+        int n = 5;
+        int groupCount =  app.contact().getCount();
+
+        for (int i = 0; i < n; i++){
+            app.contact().createContact(new ContactData(randomString(i), "Last name", "Address", "Mobile", "E-mail"));
+        }
+
+        int newGroupCount =  app.contact().getCount();
+        Assertions.assertEquals(groupCount + n, newGroupCount);
+    }
 }
