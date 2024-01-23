@@ -5,10 +5,6 @@ import org.openqa.selenium.By;
 
 public class ContactHelper extends HelperBase{
 
-    public int getCount(){
-        openContactPage();
-        return manager.driver.findElements(By.name("selected[]")).size();
-    }
 
     public ContactHelper(ApplicationManager manager) {
         super(manager);
@@ -29,7 +25,7 @@ public class ContactHelper extends HelperBase{
     public void removeContact() {
         openContactPage();
         selectContact();
-        removeSelectedContact();
+        removeSelectedContacts();
     }
     public void modifyContact(ContactData modifiedContact) {
         openContactPage();
@@ -47,7 +43,7 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("add new"));
     }
 
-    private void removeSelectedContact() {
+    private void removeSelectedContacts() {
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
@@ -73,5 +69,21 @@ public class ContactHelper extends HelperBase{
     private void initContactModification() {
         click(By.xpath("//img[@alt=\'Edit\']"));
     }
+    public int getCount(){
+        openContactPage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
 
+    public void removeAllContacs() {
+        openContactPage();
+        selectAllContacts();
+        removeSelectedContacts();
+    }
+
+    private void selectAllContacts() {
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes){
+            checkbox.click();
+        }
+    }
 }

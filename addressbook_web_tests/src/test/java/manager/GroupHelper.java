@@ -80,8 +80,8 @@ public class GroupHelper extends HelperBase{
 
     private void selectAllGroups() {
         var checkboxes = manager.driver.findElements(By.name("selected[]"));
-        for (var checkboxe : checkboxes){
-            checkboxe.click();
+        for (var checkbox : checkboxes){
+            checkbox.click();
         }
     }
 }
