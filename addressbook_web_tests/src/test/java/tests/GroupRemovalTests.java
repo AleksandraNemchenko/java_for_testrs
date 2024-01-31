@@ -12,7 +12,7 @@ public class GroupRemovalTests extends TestBase {
 
     @Test
     public void canRemoveGroup() {
-        if (app.groups().getCount() == 0){
+        if (app.groups().getCount() == 0) {
             app.groups().createGroup(new GroupData("", "", "", ""));
         }
         var oldGroups = app.groups().getList();
@@ -22,15 +22,16 @@ public class GroupRemovalTests extends TestBase {
         var newGroups = app.groups().getList();
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.remove(index);
-        Assertions.assertEquals( newGroups.size(),expectedList.size());
+        Assertions.assertEquals(newGroups.size(), expectedList.size());
     }
+
     @Test
-    void canRemoveAllGroupsAtOnce(){
-        if (app.groups().getCount() == 0){
+    void canRemoveAllGroupsAtOnce() {
+        if (app.groups().getCount() == 0) {
             app.groups().createGroup(new GroupData("", "", "", ""));
         }
         app.groups().removeAllGroups();
-        Assertions.assertEquals(0,app.groups().getCount());
+        Assertions.assertEquals(0, app.groups().getCount());
     }
 }
 
