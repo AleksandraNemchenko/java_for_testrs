@@ -40,9 +40,10 @@ public class GroupCreationTests extends TestBase {
         };
         newGroups.sort(compareById);
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).withHeader("").withFooter(""));
+        expectedList.add(group.withId(
+                newGroups.get(newGroups.size() - 1).id()).withHeader("").withFooter(""));
         expectedList.sort(compareById);
-        Assertions.assertEquals(newGroups.size(), expectedList.size());
+        Assertions.assertEquals(newGroups, expectedList);
     }
 
     public static List<GroupData> negativeGroupProvider() {
@@ -57,6 +58,6 @@ public class GroupCreationTests extends TestBase {
         var oldGroups = app.groups().getList();
         app.groups().createGroup(group);
         var newGroups = app.groups().getList();
-        Assertions.assertEquals(newGroups.size(), oldGroups.size());
+        Assertions.assertEquals(newGroups, oldGroups);
     }
 }
