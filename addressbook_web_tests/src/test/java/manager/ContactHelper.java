@@ -31,12 +31,18 @@ public class ContactHelper extends HelperBase{
         selectContact(contact);
         removeSelectedContacts();
     }
-    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+    public void modifyContact( ContactData modifiedContact, int index) {
         openContactPage();
-        initContactModification();
+        editContact(index);
         fillContactForm(modifiedContact);
         submitGroupModification();
         returnToHomePage();
+    }
+
+    private void editContact(int index) {
+        var editButtons = manager.driver.findElements(By.xpath("//img[@alt=\'Edit\']"));
+        var editButton = editButtons.get(index);
+        editButton.click();
     }
 
     private void submitContactCreation() {
