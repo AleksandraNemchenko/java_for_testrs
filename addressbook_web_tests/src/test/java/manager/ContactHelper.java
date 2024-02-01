@@ -31,7 +31,7 @@ public class ContactHelper extends HelperBase{
         selectContact(contact);
         removeSelectedContacts();
     }
-    public void modifyContact(ContactData modifiedContact) {
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openContactPage();
         initContactModification();
         fillContactForm(modifiedContact);
