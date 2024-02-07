@@ -75,6 +75,7 @@ public class ContactHelper extends HelperBase{
         type(By.name("address"), contact.address());
         type(By.name("mobile"), contact.mobile());
         type(By.name("email"), contact.email());
+        attach(By.name("photo"), contact.photo());
     }
     private void initContactModification() {
         click(By.xpath("//img[@alt=\'Edit\']"));
