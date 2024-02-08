@@ -24,7 +24,7 @@ public class ContactCreationTests extends TestBase {
                                         .withAddress(address)
                                         .withMobile(mobile)
                                         .withEmail(email)
-                                        .withPhoto("src/test/resources/images/jack.jpg"));
+                                        .withPhoto(randomFile("src/test/resources/images")));
                         }
                     }
                 }
@@ -38,7 +38,7 @@ public class ContactCreationTests extends TestBase {
                     .withAddress(randomString(i * 10))
                     .withMobile(randomString(i * 10))
                     .withEmail(randomString(i * 10))
-                    .withPhoto("src/test/resources/images/jack.jpg"));
+                    .withPhoto(randomFile ("src/test/resources/images")));
         }
         return result;
     }
