@@ -31,10 +31,10 @@ public class GroupCreationTests extends TestBase {
         }
         var json = "";
         try (var reader = new FileReader("groups.json");
-            var breader = new BufferedReader(reader)
-        ){
+             var breader = new BufferedReader(reader)
+        ) {
             var line = breader.readLine();
-            while (line != null){
+            while (line != null) {
                 json = json + line;
                 line = breader.readLine();
             }
@@ -42,7 +42,8 @@ public class GroupCreationTests extends TestBase {
 
         //var json = Files.readString(Paths.get("groups.json"));
         ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(json,new TypeReference<List<GroupData>>() {});
+        var value = mapper.readValue(json, new TypeReference<List<GroupData>>() {
+        });
         result.addAll(value);
         return result;
     }

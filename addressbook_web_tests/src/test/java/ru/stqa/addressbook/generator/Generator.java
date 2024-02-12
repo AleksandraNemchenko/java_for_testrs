@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.GroupData;
 
@@ -41,9 +42,9 @@ public class Generator {
     }
 
     private Object generate() {
-        if ("groups".equals(type)){
+        if ("groups".equals(type)) {
             return generateGroups();
-        } else if ("contacts".equals(type)){
+        } else if ("contacts".equals(type)) {
             return generateContacts();
         } else {
             throw new IllegalArgumentException("Неизвестный тип данных" + type);
@@ -66,14 +67,18 @@ public class Generator {
     }
 
     private void save(Object data) throws IOException {
-        if("json".equals(format)){
+        if ("json".equals(format)) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             var json = mapper.writeValueAsString(data);
 
-            try (var writer = new FileWriter(output)){
+            try (var writer = new FileWriter(output)) {
                 writer.write(json);
             }
+        }
+        if ("yaml".equals(format)) {
+            var mapper = new YAMLMapper();
+            mapper.writeValue(new File(output), data);
         } else {
             throw new IllegalArgumentException("Неизвестный формат данных" + format);
         }
