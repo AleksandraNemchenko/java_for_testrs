@@ -3,7 +3,9 @@ package ru.stqa.addressbook.manager;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
+import ru.stqa.addressbook.manager.hbm.ContactRecord;
 import ru.stqa.addressbook.manager.hbm.GroupRecord;
+import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class HibernateHelper extends HelperBase {
     public HibernateHelper(ApplicationManager manager) {
         super(manager);
         sessionFactory = new Configuration()
-//               .addAnnotatedClass(Book.class)
+                .addAnnotatedClass(ContactRecord.class)
                 .addAnnotatedClass(GroupRecord.class)
                 .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook")
                 .setProperty(AvailableSettings.USER, "root")
@@ -27,16 +29,16 @@ public class HibernateHelper extends HelperBase {
     static List<GroupData> convertList(List<GroupRecord> records){
         List<GroupData> result = new ArrayList<>();
         for (var record : records){
-            result.add(convert(record));
+            result.add(convertContact(record));
         }
         return result;
     }
 
-    private static GroupData convert(GroupRecord record) {
+    private static GroupData convertContact(GroupRecord record) {
         return new GroupData("" + record.id, record.name, record.header, record.footer);
     }
 
-    private static  GroupRecord convert(GroupData data) {
+    private static GroupRecord convertContact(GroupData data) {
         var id = data.id();
         if ("".equals(id)){
             id = "0";
@@ -59,8 +61,26 @@ public class HibernateHelper extends HelperBase {
     public void createGroup(GroupData groupData) {
         sessionFactory.inSession(session -> {
             session.getTransaction().begin();
-            session.persist(convert(groupData));
+            session.persist(convertContact(groupData));
             session.getTransaction().commit();
         });
+    }
+
+    static List<ContactData> convertListContact(List<ContactRecord> records){
+        List<ContactData> result = new ArrayList<>();
+        for (var record : records){
+            result.add(convertContact(record));
+        }
+        return result;
+    }
+
+    private static ContactData convertContact(ContactRecord record) {
+        return new ContactData("" + record.id, record.firstname, record.lastname, record.address, record.mobile, record.email, "");
+    }
+
+    public List<ContactData> getContactList() {
+       return convertListContact(sessionFactory.fromSession(session -> {
+            return session.createQuery("from ContactRecord", ContactRecord.class).list();
+        }));
     }
 }

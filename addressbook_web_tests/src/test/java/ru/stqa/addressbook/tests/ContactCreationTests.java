@@ -53,9 +53,9 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("singleRandomContact")
     public void canCreateContact(ContactData contact) {
-        var oldContacts = app.jdbc().getContactList();
+        var oldContacts = app.hbm().getContactList();
         app.contact().createContact(contact);
-        var newContacts = app.jdbc().getContactList();
+        var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
