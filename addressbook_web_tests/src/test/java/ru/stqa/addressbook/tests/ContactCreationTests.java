@@ -7,7 +7,6 @@ import ru.stqa.addressbook.model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import ru.stqa.addressbook.model.GroupData;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,23 +17,23 @@ import java.util.List;
 public class ContactCreationTests extends TestBase {
     public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
-//        for (var firstName : List.of("", "First name")) {
-//            for (var lastName : List.of("", "Last name")) {
-//                for (var address : List.of("", "Address")) {
-//                    for (var mobile : List.of("", "Mobile")) {
-//                        for (var email : List.of("", "E-mail")) {
-//                                result.add(new ContactData()
-//                                        .withFirstName(firstName)
-//                                        .withLastName(lastName)
-//                                        .withAddress(address)
-//                                        .withMobile(mobile)
-//                                        .withEmail(email)
-//                                        .withPhoto(randomFile("src/test/resources/images")));
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        for (var firstName : List.of("", "First name")) {
+            for (var lastName : List.of("", "Last name")) {
+                for (var address : List.of("", "Address")) {
+                    for (var mobile : List.of("", "Mobile")) {
+                        for (var email : List.of("", "E-mail")) {
+                                result.add(new ContactData()
+                                        .withFirstName(firstName)
+                                        .withLastName(lastName)
+                                        .withAddress(address)
+                                        .withMobile(mobile)
+                                        .withEmail(email)
+                                        .withPhoto(randomFile("src/test/resources/images")));
+                        }
+                    }
+                }
+            }
+        }
         var mapper = new XmlMapper();
         var value = mapper.readValue(new File("contacts.xml"), new TypeReference<List<ContactData>>() {
         });
@@ -42,18 +41,29 @@ public class ContactCreationTests extends TestBase {
         return result;
     }
 
+    public static List<ContactData> singleRandomContact() {
+       return List.of(new ContactData()
+                .withFirstName(CommonFunctions.randomString(10))
+                .withLastName(CommonFunctions.randomString(20))
+                .withAddress(CommonFunctions.randomString(30))
+                .withMobile(CommonFunctions.randomString(9))
+                .withEmail(CommonFunctions.randomString(7)));
+    }
+
     @ParameterizedTest
-    @MethodSource("contactProvider")
-    public void canCreateMultipleContacts(ContactData contact) {
-        var oldContacts = app.contact().getList();
+    @MethodSource("singleRandomContact")
+    public void canCreateContact(ContactData contact) {
+        var oldContacts = app.jdbc().getContactList();
         app.contact().createContact(contact);
-        var newContacts = app.contact().getList();
+        var newContacts = app.jdbc().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newContacts.sort(compareById);
+        var maxId = newContacts.get(newContacts.size() -1 ).id();
+
         var expectedList = new ArrayList<>(oldContacts);
-        expectedList.add(contact.withId(newContacts.get(newContacts.size() -1 ).id()).withAddress("").withMobile("").withEmail("").withPhoto(""));
+        expectedList.add(contact.withId(maxId));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts,expectedList);
     }
