@@ -10,15 +10,15 @@ import java.util.Random;
 public class ContactRemovalTests extends TestBase {
 
     @Test
-    public void canRemoveGroup() {
-        if (app.contact().getCount() == 0){
-            app.contact().createContact(new ContactData());
+    public void canRemoveContacts() {
+        if (app.hbm().getContactCount() == 0){
+            app.hbm().createContact(new ContactData("","","","","","",""));
         }
-        var oldContacts = app.contact().getList();
+        var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
         app.contact().removeContact(oldContacts.get(index));
-        var newContacts = app.contact().getList();
+        var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.remove(index);
         Assertions.assertEquals(newContacts,expectedList);
@@ -26,10 +26,10 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     void canRemoveAllContacts(){
-        if (app.contact().getCount() == 0){
-            app.contact().createContact(new ContactData());
+        if (app.hbm().getContactCount() == 0){
+            app.hbm().createContact(new ContactData());
         }
         app.contact().removeAllContacs();
-        Assertions.assertEquals(0, app.contact().getCount());
+        Assertions.assertEquals(0, app.hbm().getContactCount());
     }
 }

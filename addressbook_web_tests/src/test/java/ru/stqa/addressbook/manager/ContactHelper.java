@@ -20,22 +20,31 @@ public class ContactHelper extends HelperBase{
     }
     public void createContact(ContactData contact) {
         openContactPage();
-        initContactCreation();
+        goToAddNewContactPage();
         fillContactForm (contact);
         submitContactCreation();
         returnToHomePage();
     }
     public void removeContact(ContactData contact) {
+        goToAddNewContactPage();
         openContactPage();
         selectContact(contact);
         removeSelectedContacts();
     }
-    public void modifyContact( ContactData modifiedContact, int index) {
+    public String modifyContact( ContactData modifiedContact, int index) {
         openContactPage();
         editContact(index);
+        var id = getContactId();
         fillContactForm(modifiedContact);
         submitGroupModification();
         returnToHomePage();
+        return id;
+    }
+
+    private String getContactId() {
+        var input = manager.driver.findElement(By.xpath("(//input[@name=\'id\'])"));
+        var id = input.getAttribute("value");
+        return id;
     }
 
     private void editContact(int index) {
@@ -48,7 +57,7 @@ public class ContactHelper extends HelperBase{
         click(By.xpath("(//input[@name=\'submit\'])[2]"));
     }
 
-    private void initContactCreation() {
+    private void goToAddNewContactPage() {
         click(By.linkText("add new"));
     }
 

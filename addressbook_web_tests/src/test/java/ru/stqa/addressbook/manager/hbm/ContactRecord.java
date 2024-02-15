@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 @Table(name = "addressbook")
 public class ContactRecord {
 
+
     @Id
     public int id;
     public String firstname;
@@ -15,5 +16,28 @@ public class ContactRecord {
     public String address;
     public String mobile;
     public String email;
+    public String middlename = "";
+    public String nickname = "";
+    public String company = "";
+    public String title = "";
+    public String home = "";
+    public String work = "";
+    public String fax = "";
+    public String email2 = "";
+    public String email3 = "";
+    public String homepage = "";
+
+
+    public ContactRecord(){
+    }
+
+    public ContactRecord(int id, String firstname, String lastname, String address, String mobile, String email){
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.mobile = mobile;
+        this.email = email;
+    }
 
 }
