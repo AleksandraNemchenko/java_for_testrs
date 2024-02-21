@@ -24,13 +24,13 @@ public class ContactCreationTests extends TestBase {
                 for (var address : List.of("", "Address")) {
                     for (var mobile : List.of("", "Mobile")) {
                         for (var email : List.of("", "E-mail")) {
-                                result.add(new ContactData()
-                                        .withFirstName(firstName)
-                                        .withLastName(lastName)
-                                        .withAddress(address)
-                                        .withMobile(mobile)
-                                        .withEmail(email)
-                                        .withPhoto(randomFile("src/test/resources/images")));
+                            result.add(new ContactData()
+                                    .withFirstName(firstName)
+                                    .withLastName(lastName)
+                                    .withAddress(address)
+                                    .withMobile(mobile)
+                                    .withEmail(email)
+                                    .withPhoto(randomFile("src/test/resources/images")));
                         }
                     }
                 }
@@ -44,7 +44,7 @@ public class ContactCreationTests extends TestBase {
     }
 
     public static List<ContactData> singleRandomContact() {
-       return List.of(new ContactData()
+        return List.of(new ContactData()
                 .withFirstName(CommonFunctions.randomString(10))
                 .withLastName(CommonFunctions.randomString(20))
                 .withAddress(CommonFunctions.randomString(30))
@@ -62,12 +62,12 @@ public class ContactCreationTests extends TestBase {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newContacts.sort(compareById);
-        var maxId = newContacts.get(newContacts.size() -1 ).id();
+        var maxId = newContacts.get(newContacts.size() - 1).id();
 
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact.withId(maxId));
         expectedList.sort(compareById);
-        Assertions.assertEquals(newContacts,expectedList);
+        Assertions.assertEquals(newContacts, expectedList);
     }
 
     @ParameterizedTest
@@ -76,7 +76,7 @@ public class ContactCreationTests extends TestBase {
         var oldContacts = app.contact().getList();
         app.contact().createContact(contact);
         var newContacts = app.contact().getList();
-        Assertions.assertEquals(newContacts,oldContacts);
+        Assertions.assertEquals(newContacts, oldContacts);
     }
 
     public static List<ContactData> negativeContactProvider() {
@@ -100,24 +100,49 @@ public class ContactCreationTests extends TestBase {
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 
-
-    @Test
-    public void canCreateContactInGroupWithPhoto(){
-        var contact = new ContactData()
-                .withFirstName(CommonFunctions.randomString(10))
-                .withLastName(CommonFunctions.randomString(10))
-                .withAddress(CommonFunctions.randomString(10))
-                .withMobile(CommonFunctions.randomString(10))
-                .withEmail(CommonFunctions.randomString(10))
-                .withPhoto(randomFile("src/test/resources/images"));
+    @ParameterizedTest
+    @MethodSource("singleRandomContact")
+    public void canCreateContactInGroupFromHomePage(ContactData contact) {
         if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData("", "", "", ""));
+            app.hbm().createGroup(new GroupData("", "GroupName", "", ""));
         }
         var group = app.hbm().getGroupList().get(0);
+        app.contact().createContact(contact);
+        var newContacts = app.hbm().getContactList();
+        var maxId = newContacts.get(newContacts.size() - 1).id();
 
+        var contactWithId = contact.withId(maxId);
         var oldRelated = app.hbm().getContactsInGroup(group);
-        app.contact().createContactWithGroup(contact, group);
+
+        app.contact().createContactWithGroupFromHomePage(contactWithId, group);
         var newRelated = app.hbm().getContactsInGroup(group);
-        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newRelated.sort(compareById);
+
+        var expectedList = new ArrayList<>(oldRelated);
+        expectedList.add(contactWithId);
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newRelated, expectedList);
     }
+
+//    @Test
+//    public void canCreateContactInGroupWithPhoto(){
+//        var contact = new ContactData()
+//                .withFirstName(CommonFunctions.randomString(10))
+//                .withLastName(CommonFunctions.randomString(10))
+//                .withAddress(CommonFunctions.randomString(10))
+//                .withMobile(CommonFunctions.randomString(10))
+//                .withEmail(CommonFunctions.randomString(10))
+//                .withPhoto(randomFile("src/test/resources/images"));
+//        if (app.hbm().getGroupCount() == 0) {
+//            app.hbm().createGroup(new GroupData("", "", "", ""));
+//        }
+//        var group = app.hbm().getGroupList().get(0);
+//        var oldRelated = app.hbm().getContactsInGroup(group);
+//        app.contact().createContactWithGroup(contact, group);
+//        var newRelated = app.hbm().getContactsInGroup(group);
+//        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+//    }
 }
